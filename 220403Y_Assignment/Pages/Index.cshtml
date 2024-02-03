@@ -1,0 +1,29 @@
+﻿@page
+@using Microsoft.AspNetCore.DataProtection;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    var dataProtectionProvider = DataProtectionProvider.Create("EncryptData");
+    var protector = dataProtectionProvider.CreateProtector("MySecretKey");
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to my assignment</h1>
+    <p>Hello, @Model.CurrentUser?.First_Name @Model.CurrentUser?.Last_Name</p>
+    <p>Mobile Number: @Model.CurrentUser?.Mobile_No</p>
+    <p>Billing Address: @Model.CurrentUser?.Billing_Address</p>
+    <p>Shipping Address: @Model.CurrentUser?.Shipping_Address</p>
+    <p>Encrypted Credit Card Number: @Model.CurrentUser?.Credit_No</p>
+
+    @if (Model.CurrentUser?.Credit_No != null)
+    {
+        <p>Unencrypted credit Card Number: @protector.Unprotect(Model.CurrentUser.Credit_No)</p>
+    }
+    else
+    {
+        <p>Unencrypted credit Card Number: N/A</p>
+    }
+
+    <p>Password Hash: @Model.CurrentUser?.PasswordHash</p>
+    <p></p>
+</div>
