@@ -19,7 +19,9 @@ namespace _220403Y_Assignment.Pages
 		public async Task<IActionResult> OnPostLogoutAsync()
 		{
 			await signInManager.SignOutAsync();
-			return RedirectToPage("Login");
+            HttpContext.Session.Clear();
+
+            return RedirectToPage("Login");
 		}
 		public async Task<IActionResult> OnPostDontLogoutAsync()
 		{

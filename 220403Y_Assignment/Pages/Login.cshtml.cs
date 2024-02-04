@@ -31,8 +31,8 @@ namespace _220403Y_Assignment.Pages
 		public async Task<IActionResult> OnPostAsync()
 		{
 
-			//verify response token with google
-			var captchaResult = await _captchaService.ValidateToken(LModel.Token);
+            //verifiying the response
+            var captchaResult = await _captchaService.ValidateToken(LModel.Token);
 				if (!captchaResult)
 			{
 				return Page();
@@ -42,11 +42,8 @@ namespace _220403Y_Assignment.Pages
 				var identityResult = await signInManager.PasswordSignInAsync(LModel.Email, LModel.Password, LModel.RememberMe, lockoutOnFailure: true);
 
 				if (identityResult.Succeeded)
-				{	
-
-                    // Set session timeout dynamically upon successful login
-                    HttpContext.Session.SetInt32("SessionTimeout", 1); // Set the session timeout in minutes
-                    HttpContext.Session.SetString("UserId", LModel.Email); // Set a unique identifier for the user
+				{
+                    HttpContext.Session.SetString("UserID", LModel.Email);
                     return RedirectToPage("Index");
 				}
                 if (identityResult.IsLockedOut)
